@@ -97,46 +97,115 @@
                                         <div class="callout callout-danger p-1 pl-3 pr-3">
                                             <p>@ViewData["Message"]</p>
                                         </div>
-                                    } 
-
-                                    if (Model.VinResults != null)
-                                    {
-                                        <table id="ResultsTable" class="table table-bordered table-stripped table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        ID's
-                                                    </th>
-                                                    <th>Vehicle key information</th>
-                                                    <th>Details</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var item in Model.VinResults)
-                                                {
-                                                    <tr>
-                                                        <td style="width:20%" class="py-1"> 
-                                                            <span class="d-inline badge badge-success">ID : @item.VariableId</span> 
-                                                            @if (@item.ValueId is not null)
-                                                            { 
-                                                                <small class="d-inline badge badge-info">Value ID : @(item.ValueId ?? "??")</small>
-                                                            } 
-                                                        </td>
-                                                        <td style="width:30%" class="text-truncate py-1">@item.Variable</td>
-                                                        <td class="py-1 text-truncate w-50">
-                                                            @if (item.Value is not null)
-                                                            {
-                                                                <span class="text-secondary font-weight-bold text-info">@item.Value</span>
-                                                            }else
-                                                            {
-                                                                <small class="text-muted"><i class="fas fa-warning"></i> No avalaible</small>
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
                                     }
+
+                                    <div class="row">
+                                        @if (Model.VinResults is not null)
+                                        {
+                                            <div class="col">
+                                                <table id="ResultsTable" class="table table-bordered table-stripped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                ID's
+                                                            </th>
+                                                            <th>Vehicle key information</th>
+                                                            <th>Details</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.VinResults)
+                                                        {
+                                                            <tr>
+                                                                <td style="width:20%" class="py-1">
+                                                                    <span class="d-inline badge badge-success">ID : @item.VariableId</span>
+                                                                    @if (@item.ValueId is not null)
+                                                                    {
+                                                                        <small class="d-inline badge badge-info">Value ID : @(item.ValueId ?? "??")</small>
+                                                                    }
+                                                                </td>
+                                                                <td style="width:30%" class="text-truncate py-1">@item.Variable</td>
+                                                                <td class="py-1 text-truncate w-50">
+                                                                    @if (item.Value is not null)
+                                                                    {
+                                                                        <span class="text-secondary font-weight-bold text-info">@item.Value</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <small class="text-muted"><i class="fas fa-warning"></i> No avalaible</small>
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        }
+
+                                        @if (Model.VinValuesResults is not null)
+                                        { 
+                                            <div class="col">
+
+                                                <table id="ResultsTable" class="table table-bordered table-stripped table-hover">
+                                                    <tbody>
+
+                                                        @foreach (var item in Model.VinValuesResults)
+                                                        { 
+                                                            <tr>
+                                                                <td colspan="5">
+                                                                    <!-- info row -->
+                                                                    <div class="row invoice-info">
+                                                                        <div class="col-sm-4 invoice-col">
+                                                                            <i>Vehicle summary</i>
+                                                                            <span class="d-block">
+                                                                                <b>Make:</b> @($"{item.Make}, {item.Model}")<br>
+                                                                                <b>Primary fuel type:</b> <span class="badge badge-success">@item.FuelTypePrimary</span><br>
+                                                                                <b>Body class:</b> @item.BodyClass<br>
+                                                                                @item.VehicleType
+                                                                            </span>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                        <div class="col-sm-4 invoice-col">
+                                                                            To
+                                                                            <address>
+                                                                                <strong>John Doe</strong><br>
+                                                                                795 Folsom Ave, Suite 600<br>
+                                                                                San Francisco, CA 94107<br>
+                                                                                Phone: (555) 539-1037<br>
+                                                                                Email: john.doe@example.com
+                                                                            </address>
+
+                                                                            <b>Airbag front:</b> @item.AirBagLocFront <br />
+                                                                            <b>Airbag lock knee:</b>@(item.AirBagLocKnee ?? "??")<br />
+                                                                            <b>Airbag lock setat cushion:</b>@(item.AirBagLocSeatCushion ?? "??")<br/>
+                                                                            <b>Airbag lock side:</b>@(item.AirBagLocSide ?? "??")<br/>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                        <div class="col-sm-4 invoice-col">
+                                                                            <b>@item.Gvwr</b><br>
+                                                                            <br>
+                                                                            <b>Plan location:</b> @($"{item.PlantCity}, {item.PlantCountry}")<br>
+                                                                            <b>Vehicle model year:</b> @item.ModelYear<br>
+                                                                            <b>Manufacturer:</b> @item.Manufacturer
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                    <!-- /.row -->
+                                                                    <hr />
+                                                                    <p>
+                                                                        <b class="d-block">Other information about the restraint system:</b>
+                                                                        @item.OtherRestraintSystemInfo
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        }
+                                    </div>
+
                                 }
 
                             </div>
